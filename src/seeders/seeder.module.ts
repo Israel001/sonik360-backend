@@ -13,13 +13,13 @@ import { ISeederConstructor } from './seeder.interface';
   ]
 })
 export default class SeederModule {
-  public static seederClasses: ISeederConstructor[] = []
+  public static seederClasses: ISeederConstructor[] = [];
   static forRoot(seeders: ISeederConstructor[]): DynamicModule {
-    SeederModule.seederClasses = seeders || []
+    SeederModule.seederClasses = seeders || [];
     return {
       global: true,
       module: SeederModule,
-      providers: seeders
-    }
+      providers: seeders,
+    };
   }
 }

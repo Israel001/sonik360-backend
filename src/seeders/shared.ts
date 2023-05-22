@@ -30,6 +30,7 @@ const saveProduct = async (
   if (!subCategory) {
     subCategory = subCategoryRepo.create({
       name: prd.subCategory,
+      brands: prd.brand,
     });
     subCategory.mainCategory = Promise.resolve(mainCategory);
     subCategory = await subCategory.save();
@@ -41,6 +42,10 @@ const saveProduct = async (
       );
       return false;
     }
+    const brands = subCategory.brands.split(',');
+    brands.push(prd.brand);
+    subCategory.brands = brands.join(',');
+    subCategory = await subCategory.save();
   }
 
   let product = productRepo.create({
@@ -68,7 +73,7 @@ export const seederRunner = async (
   mainCategoryRepo: Repository<MainCategories>,
   subCategoryRepo: Repository<SubCategories>,
 ) => {
-  await productRepo.clear();
+  await productRepo.delete({});
   await subCategoryRepo.delete({});
   await mainCategoryRepo.delete({});
   for (const prd of productsData) {

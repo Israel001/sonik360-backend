@@ -1,9 +1,15 @@
-import { AutoMap } from "@automapper/classes";
-import { BaseEntity } from "src/base/entity";
-import { Column, Entity, ManyToOne, PrimaryColumn } from "typeorm";
-import { SubCategories } from "../categories/sub_categories.entity";
+import { AutoMap } from '@automapper/classes';
+import { BaseEntity } from 'src/base/entity';
+import {
+  Column,
+  Entity,
+  ManyToOne,
+  PrimaryColumn,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
+import { SubCategories } from '../categories/sub_categories.entity';
 
-@Entity('products', { synchronize: true })
+@Entity('products', { synchronize: false })
 export class Product extends BaseEntity {
   @PrimaryColumn()
   @AutoMap()
@@ -57,6 +63,8 @@ export class Product extends BaseEntity {
   @AutoMap()
   type: string;
 
-  @ManyToOne(() => SubCategories, (subCategory) => subCategory.products, { eager: true })
+  @ManyToOne(() => SubCategories, (subCategory) => subCategory.products, {
+    eager: true,
+  })
   category: Promise<SubCategories>;
 }

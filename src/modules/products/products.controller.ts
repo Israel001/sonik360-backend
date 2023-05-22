@@ -10,6 +10,11 @@ export class ProductsController {
     return this.productService.search(query);
   }
 
+  @Get('/some-products')
+  fetchSomeProducts(@Query('names') names: string) {
+    return this.productService.fetchSomeProducts(names);
+  }
+
   @Get()
   fetch(
     @Query('filter') filter: string,

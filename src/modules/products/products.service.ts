@@ -41,6 +41,18 @@ export class ProductsService {
     return result;
   }
 
+  async fetchSomeProducts(names: string) {
+    const productNames = names.split(',');
+    const queryBuilder = this.productRepository.createQueryBuilder();
+    queryBuilder.where(`name = '${productNames[0]}'`);
+    for (let i = 1; i < productNames.length; i++) {
+      queryBuilder.orWhere(`name = '${productNames[i]}'`);
+    }
+    console.log("query", queryBuilder.getQuery());
+    const result = await queryBuilder.getMany();
+    return result;
+  }
+
   async fetch({
     filter,
     minPrice,
