@@ -648,6 +648,27 @@ export default class ProductSeed implements ISeeder {
       originalPrice: 100,
       discount: 0,
     },
+    {
+      name: 'Brand New Apple IPhone XS Max ( 256GB ROM + 4GB RAM) IOS 12 (12MP + 12MP)+7MP-Water Resistant',
+      image:
+        'https://sonik360.com/wp-content/uploads/2020/08/1464AA0C-34DC-487A-AE75-5E8C9C4679C4.png, https://sonik360.com/wp-content/uploads/2020/08/0137E238-0441-4E8B-893B-90FE936E7EE4.jpeg, https://sonik360.com/wp-content/uploads/2020/08/999ABBB1-E48C-4C7A-A615-DDB0DB0CB988.jpeg, https://sonik360.com/wp-content/uploads/2020/08/6EDF6FB9-9447-4F0D-B30D-350F179ABE7C.jpeg, https://sonik360.com/wp-content/uploads/2020/08/474FB5CB-9DB4-491A-BF76-593D0D67A380.jpeg',
+      price: 800000,
+      brand: 'Apple',
+      availability: 10,
+      colors: ['black', 'gold', 'white'],
+      category: 'Gadgets',
+      subCategory: 'Phones',
+      attributes: {
+        ROM: '64',
+        RAM: '4GB',
+      },
+      type: 'phone',
+      reviews: [],
+      shortDescription:
+        '<ul class="a-unordered-list a-vertical a-spacing-none"><li style="text-align: center;" data-mce-style="text-align: center;">H6.5-inch Super Retina display (OLED) with HDR</li><li>IP68 dust and water resistant (maximum depth of 2 meters up to 30 minutes)</li><li>12MP dual cameras with dual OIS and 7MP TrueDepth front camera—Portrait mode, Portrait Lighting, Depth Control, and Smart HDR</li><li>Face ID for secure authentication</li><li>A12 Bionic with next-generation Neural Engine</li><li>Wireless charging—works with Qi chargers</li><li>iOS 12 with Memoji, Screen Time, Siri Shortcuts, and Group FaceTime</li></ul>',
+      originalPrice: 800000,
+      discount: 0,
+    },
   ];
 
   constructor(
