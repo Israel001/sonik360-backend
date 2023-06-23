@@ -3,11 +3,12 @@ import { BaseEntity } from 'src/base/entity';
 import {
   Column,
   Entity,
+  ManyToMany,
   ManyToOne,
   PrimaryColumn,
-  PrimaryGeneratedColumn,
 } from 'typeorm';
 import { SubCategories } from '../categories/sub_categories.entity';
+import { SpecialCategories } from '../categories/special_categories.entity';
 
 @Entity('products', { synchronize: false })
 export class Product extends BaseEntity {

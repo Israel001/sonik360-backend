@@ -2,7 +2,9 @@ import { Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Brackets, Not, Repository } from 'typeorm';
 import { Product } from './products.entity';
-import { isNumeric } from 'src/utils';
+import { FILTER_TYPES, isNumeric } from 'src/utils';
+import { SubCategories } from '../categories/sub_categories.entity';
+import { SpecialCategories } from '../categories/special_categories.entity';
 
 @Injectable()
 export class ProductsService {
@@ -10,6 +12,10 @@ export class ProductsService {
 
   constructor(
     @InjectRepository(Product) public productRepository: Repository<Product>,
+    @InjectRepository(SubCategories)
+    public subCategoryRepository: Repository<SubCategories>,
+    @InjectRepository(SpecialCategories)
+    public specialCategoryRepository: Repository<SpecialCategories>,
   ) {}
 
   async search(query: string) {
@@ -28,6 +34,39 @@ export class ProductsService {
     return { data, total };
   }
 
+  async filter(filterType: string, filter: string) {
+    const queryBuilder = this.productRepository.createQueryBuilder('product');
+    switch (filterType) {
+      case FILTER_TYPES.CATEGORY:
+        return await queryBuilder
+          .leftJoinAndSelect(
+            'sub_categories',
+            'subCategory',
+            'subCategory.id = product.category',
+          )
+          .leftJoinAndSelect(
+            'main_categories',
+            'mainCategory',
+            'mainCategory.id = subCategory.main_category_id',
+          )
+          .where(`LOWER(mainCategory.name) = '${filter}'`)
+          .getMany();
+      case FILTER_TYPES.SUB_CATEGORY:
+        return await queryBuilder
+          .leftJoinAndSelect(
+            'sub_categories',
+            'subCategory',
+            'subCategory.id = product.category',
+          )
+          .where(`LOWER(subCategory.name) = '${filter}'`)
+          .getMany();
+      case FILTER_TYPES.BRAND:
+        return await queryBuilder.where(`brand = '${filter}'`).getMany();
+      case FILTER_TYPES.SPECIAL_CATEGORY:
+        return await this.fetchSpecialCategoryProducts(filter);
+    }
+  }
+
   async fetchBrands() {
     const queryBuilder = this.productRepository.createQueryBuilder();
     let queryResult = await queryBuilder.select(['brand']).execute();
@@ -44,13 +83,19 @@ export class ProductsService {
   async fetchSomeProducts(names: string) {
     const productNames = names.split(',');
     const queryBuilder = this.productRepository.createQueryBuilder();
-    queryBuilder.where(`name = '${productNames[0]}'`);
+    queryBuilder.where(`name = '${productNames[0].trim()}'`);
     for (let i = 1; i < productNames.length; i++) {
-      queryBuilder.orWhere(`name = '${productNames[i]}'`);
+      queryBuilder.orWhere(`name = '${productNames[i].trim()}'`);
     }
-    console.log("query", queryBuilder.getQuery());
     const result = await queryBuilder.getMany();
     return result;
+  }
+
+  async fetchSpecialCategoryProducts(name: string) {
+    const result = await this.specialCategoryRepository.findOne({
+      where: { name },
+    });
+    return await this.fetchSomeProducts(result.products);
   }
 
   async fetch({

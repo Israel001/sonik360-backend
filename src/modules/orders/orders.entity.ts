@@ -1,7 +1,7 @@
 import { AutoMap } from "@automapper/classes";
 import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 
-@Entity('orders', { synchronize: false })
+@Entity('orders', { synchronize: true })
 export class Order extends BaseEntity {
   @PrimaryGeneratedColumn()
   @AutoMap()
@@ -22,6 +22,10 @@ export class Order extends BaseEntity {
   @Column('float', { default: 0 })
   @AutoMap()
   amount: number;
+
+  @Column('float', { default: 0 })
+  @AutoMap()
+  discount: number;
 
   @Column('longtext', { nullable: true })
   @AutoMap()

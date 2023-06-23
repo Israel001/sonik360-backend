@@ -15,6 +15,11 @@ export class ProductsController {
     return this.productService.fetchSomeProducts(names);
   }
 
+  @Get('/special-categories/:name')
+  fetchSpecialCategoryProducts(@Param('name') name: string) {
+    return this.productService.fetchSpecialCategoryProducts(name);
+  }
+
   @Get()
   fetch(
     @Query('filter') filter: string,
@@ -22,6 +27,14 @@ export class ProductsController {
     @Query('maxPrice', ParseIntPipe) maxPrice: number,
   ) {
     return this.productService.fetch({ filter, minPrice, maxPrice });
+  }
+
+  @Get('/:filterType/:filter')
+  filter(
+    @Param('filterType') filterType: string,
+    @Param('filter') filter: string,
+  ) {
+    return this.productService.filter(filterType, filter);
   }
 
   @Get('/brands')
