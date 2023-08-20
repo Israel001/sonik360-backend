@@ -9,7 +9,7 @@ export class MainCategories extends BaseEntity {
   @AutoMap()
   id: number;
   
-  @Column({ length: 50, unique: true })
+  @Column({ unique: true })
   @AutoMap()
   name: string;
 

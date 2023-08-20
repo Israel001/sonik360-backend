@@ -20,15 +20,15 @@ export class Product extends BaseEntity {
   @AutoMap()
   slug: string;
 
-  @Column()
+  @Column({ type: 'longtext' })
   @AutoMap()
   image: string;
 
-  @Column()
+  @Column({ type: 'longtext' })
   @AutoMap()
   reviews: string;
 
-  @Column()
+  @Column({ type: 'longtext' })
   @AutoMap()
   shortDescription: string;
 
@@ -44,7 +44,7 @@ export class Product extends BaseEntity {
   @AutoMap()
   discount: number;
 
-  @Column()
+  @Column({ type: 'longtext' })
   @AutoMap()
   brand: string;
 
@@ -52,15 +52,15 @@ export class Product extends BaseEntity {
   @AutoMap()
   availability: number;
 
-  @Column()
+  @Column({ type: 'longtext' })
   @AutoMap()
   colors: string;
 
-  @Column('longtext')
+  @Column({ type: 'longtext' })
   @AutoMap()
   attributes: string;
 
-  @Column()
+  @Column({ type: 'longtext' })
   @AutoMap()
   type: string;
 

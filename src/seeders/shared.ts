@@ -43,7 +43,7 @@ const saveProduct = async (
       return false;
     }
     const brands = subCategory.brands.split(',');
-    brands.push(prd.brand);
+    if (!brands.includes(prd.brand)) brands.push(prd.brand);
     subCategory.brands = brands.join(',');
     subCategory = await subCategory.save();
   }

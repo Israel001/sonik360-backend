@@ -38,8 +38,8 @@ export class ProductsController {
   }
 
   @Get('/brands')
-  fetchBrands() {
-    return this.productService.fetchBrands();
+  fetchBrands(@Query('type') type: string) {
+    return this.productService.fetchBrands(type);
   }
 
   @Get('/:slug')

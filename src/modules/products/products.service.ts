@@ -67,15 +67,48 @@ export class ProductsService {
     }
   }
 
-  async fetchBrands() {
+  async fetchBrands(type: string) {
     const queryBuilder = this.productRepository.createQueryBuilder();
     let queryResult = await queryBuilder.select(['brand']).execute();
     let result = [];
     if (queryResult && queryResult.length) {
-      result = queryResult.reduce((prev: any[], cur: { brand: any }) => {
-        if (!prev.includes(cur.brand)) prev.push(cur.brand);
+      result = queryResult.reduce((prev: any[], cur: { brand: string }) => {
+        if (cur.brand.trim() && !prev.includes(cur.brand)) {
+          if (
+            type === 'gadgets' &&
+            [
+              'apple',
+              'samsung',
+              'jbl',
+              'lenovo',
+              'dell',
+              'google',
+              'asus',
+              'msi',
+              'sony',
+              'hp',
+              'tecno',
+            ].includes(cur.brand.toLowerCase())
+          ) {
+            prev.push(cur.brand);
+          } else if (
+            type !== 'gadgets' &&
+            ['lg', 'hisense', 'maxi', 'polystar'].includes(
+              cur.brand.toLowerCase(),
+            )
+          ) {
+            prev.push(cur.brand);
+          }
+        }
         return prev;
       }, []);
+    }
+    if (result.includes('Polystar')) {
+      result.splice(
+        result.findIndex((r) => r === 'Polystar'),
+        1,
+      );
+      result.push('Polystar');
     }
     return result;
   }

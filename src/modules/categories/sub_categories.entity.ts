@@ -28,11 +28,11 @@ export class SubCategories extends BaseEntity {
   })
   products: Promise<Product[]>;
 
-  @Column()
+  @Column({ type: 'longtext' })
   @AutoMap()
   brands: string;
 
-  @Column({ length: 50, unique: true })
+  @Column({ unique: true })
   @AutoMap()
   name: string;
 }
